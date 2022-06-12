@@ -6,9 +6,8 @@ class Heap {
 	}
 
 	checkUp(valuePos) {
-		const fatherPos = valuePos/2;
-
-		if(fatherPos == 0)
+		const fatherPos = Math.floor(valuePos/2);
+		if(fatherPos < 1)
 			return
 
 		if(this.comparator(this.values[valuePos], this.values[fatherPos])) {
@@ -30,7 +29,7 @@ class Heap {
 			smallestCase = 2;
 		}
 
-		if(rightSonPos <= this.valueCont && this.comparator(this.values[rightSonPos], smallestValue)) {
+		if(rightSonPos <= this.valueCount && this.comparator(this.values[rightSonPos], smallestValue)) {
 			smallestCase = 3;
 		}
 
@@ -54,13 +53,22 @@ class Heap {
 		var smallestValue = JSON.parse(JSON.stringify(this.values[1]));
 		[this.values[1], this.values[this.valueCount]] = [this.values[this.valueCount], this.values[1]];
 		this.valueCount--;
-		this.checkDown(1);
+		if(this.valueCount > 0)
+			this.checkDown(1);
 		return smallestValue;
 	}
 
 	peek() {
 		return this.values[1];
 	}
+
+	empty() {
+		return this.valueCount == 0;
+	}
+
+	size() {
+		return this.valueCount;
+	}
 }
 
-exports.Heap = Heap;
+export default Heap;
